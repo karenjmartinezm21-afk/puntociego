@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUNTO CIEGO — Fundación Universitaria Los Libertadores</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            tealbrand: '#1B999E',
+            tealdark: '#137377',
+            ink: '#0A0A0A',
+            paper: '#F4F4F4',
+            paperblue: '#DDF0F1'
+          },
+          fontFamily: {
+            display: ['Anton', 'sans-serif'],
+            typewriter: ['"Courier Prime"', 'monospace'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #0A0A0A;
+      color: #F4F4F4;
+      overflow-x: hidden;
+    }
+
+    .paper-strip {
+      position: relative;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+      clip-path: polygon(
+        0% 4%, 4% 0%, 9% 3%, 15% 1%, 21% 4%, 28% 0%, 35% 3%, 42% 1%, 49% 4%, 56% 0%, 63% 3%, 70% 1%, 77% 4%, 84% 0%, 91% 3%, 96% 1%, 100% 4%,
+        99% 25%, 100% 50%, 99% 75%, 100% 96%,
+        95% 100%, 89% 97%, 82% 99%, 75% 96%, 68% 100%, 61% 97%, 54% 99%, 47% 96%, 40% 100%, 33% 97%, 26% 99%, 19% 96%, 12% 100%, 5% 97%, 0% 96%,
+        1% 72%, 0% 48%, 1% 22%
+      );
+    }
+
+    .paper-top-teal {
+      clip-path: polygon(
+        0% 0%, 100% 0%, 100% 78%,
+        95% 86%, 90% 76%, 84% 88%, 78% 77%, 72% 89%, 66% 75%, 60% 87%, 53% 76%, 46% 90%, 39% 77%, 32% 88%, 25% 76%, 18% 89%, 11% 77%, 5% 87%, 0% 78%
+      );
+    }
+
+    .paper-top-white {
+      clip-path: polygon(
+        0% 0%, 100% 0%, 100% 82%,
+        94% 94%, 88% 80%, 81% 95%, 74% 82%, 67% 96%, 60% 81%, 52% 95%, 45% 80%, 38% 94%, 30% 82%, 23% 95%, 15% 81%, 8% 93%, 0% 82%
+      );
+    }
+
+    .noise-overlay {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 0);
+      background-size: 16px 16px;
+    }
+
+    .perspective {
+      perspective: 1200px;
+    }
+    .flip-inner {
+      transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-style: preserve-3d;
+    }
+    .flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-front, .flip-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .flip-back {
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-tealbrand selection:text-white">
+
+  <!-- NAVEGACIÓN -->
+  <header class="sticky top-0 z-50 bg-ink/95 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="#inicio" class="flex items-center gap-3 group">
+        <div class="bg-white px-2.5 py-1.5 rounded-sm shadow-md transition-transform group-hover:scale-105 flex items-center justify-center">
+          <!-- LOGO ADJUNTO: Guarda tu logo como "logo-punto-ciego.png" en la misma carpeta de este HTML -->
+          <img src="logo-punto-ciego.png" alt="Logo Punto Ciego" class="h-10 w-auto object-contain" />
+        </div>
+        <div class="hidden sm:block leading-tight">
+          <span class="block text-[11px] font-bold uppercase tracking-widest text-tealbrand">Los Libertadores</span>
+          <span class="block text-xs text-neutral-400">Campaña Universitaria</span>
+        </div>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider text-neutral-300">
+        <a href="#leyes" class="hover:text-tealbrand transition-colors">1. Datos Reales</a>
+        <a href="#simulador" class="hover:text-tealbrand transition-colors">2. Ponte a Prueba</a>
+        <a href="#antes-de-llamar" class="hover:text-tealbrand transition-colors">3. Qué Hacer</a>
+        <a href="#lineas" class="bg-tealbrand text-white px-3.5 py-2 rounded-sm hover:bg-tealdark transition-colors">Líneas Exactas</a>
+      </nav>
+
+      <a href="#lineas" class="md:hidden bg-tealbrand text-white text-xs font-extrabold uppercase tracking-wider px-3 py-2 rounded-sm">
+        Líneas 24/7
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO PRINCIPAL -->
+  <section id="inicio" class="relative min-h-[88vh] flex flex-col justify-between overflow-hidden bg-ink">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1600&q=80"
+        alt="Ambiente nocturno urbano"
+        class="w-full h-full object-cover grayscale contrast-125 brightness-[0.34]"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-[#0A0A0A]"></div>
+      <div class="absolute inset-0 noise-overlay"></div>
+    </div>
+
+    <!-- Rasgado superior -->
+    <div class="relative z-10 w-full">
+      <div class="w-full h-14 md:h-20 bg-paper paper-top-white">
+        <div class="w-full h-10 md:h-14 bg-tealbrand paper-top-teal"></div>
+      </div>
+      <!-- Etiqueta con tu logo -->
+      <div class="max-w-6xl mx-auto px-4 flex justify-end -mt-10 md:-mt-14">
+        <div class="bg-white p-3 md:p-4 shadow-2xl rounded-b-md border-b-4 border-tealbrand">
+          <img src="logo-punto-ciego.png" alt="Logo Punto Ciego" class="h-14 md:h-20 w-auto object-contain" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Titular central rasgado -->
+    <div class="relative z-10 max-w-4xl mx-auto px-4 my-10 md:my-12 text-center">
+      <div class="inline-block bg-black/80 border border-tealbrand/60 text-tealbrand text-xs font-extrabold uppercase tracking-widest px-3.5 py-1 mb-5">
+        Fundación Universitaria Los Libertadores • Prevención Juvenil
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="paper-strip bg-paper text-ink px-6 sm:px-10 py-4 sm:py-5 max-w-2xl w-full -rotate-1">
+          <h1 class="font-display text-3xl sm:text-5xl md:text-6xl tracking-wide uppercase leading-none">
+            INFORMARSE TAMBIÉN ES AYUDAR
+          </h1>
+        </div>
+
+        <div class="paper-strip bg-paperblue text-tealbrand px-6 sm:px-10 py-4 sm:py-5 max-w-xl w-full -mt-2 rotate-1">
+          <p class="font-sans font-extrabold text-2xl sm:text-4xl md:text-5xl tracking-tight leading-tight">
+            <span class="uppercase">NO</span> más <span class="uppercase">MENORES</span> en bares y moteles
+          </p>
+        </div>
+      </div>
+
+      <p class="font-typewriter text-neutral-200 text-base sm:text-lg max-w-2xl mx-auto mt-8 leading-relaxed bg-black/70 p-4 rounded border-l-4 border-tealbrand text-left">
+        En la U todos conocemos a alguien que intenta colarse de rumba o que entra a un motel teniendo menos de 18. Aquí no venimos a darte cantaleta: te dejamos claro <strong>qué dice la ley en Colombia</strong>, <strong>cómo actuar con cabeza fría</strong> y <strong>a qué línea llamar según cada caso</strong>.
+      </p>
+
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-4">
+        <a href="#leyes" class="bg-tealbrand hover:bg-tealdark text-white font-extrabold uppercase tracking-wider text-sm px-6 py-3.5 rounded-sm transition-all shadow-lg shadow-tealbrand/20">
+          Ver datos reales (sin rodeos)
+        </a>
+        <a href="#simulador" class="bg-white/10 hover:bg-white/20 border border-white/25 text-white font-bold uppercase tracking-wider text-sm px-6 py-3.5 rounded-sm transition-all">
+          Probar qué harías tú
+        </a>
+      </div>
+    </div>
+
+    <div class="relative z-10 bg-tealbrand text-white text-center py-3 px-4 font-extrabold tracking-wide text-base sm:text-lg">
+      Infórmate, previene y actúa
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: DATOS VERÍDICOS SIN RODEOS -->
+  <section id="leyes" class="py-16 md:py-20 px-4 max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4 border-b border-white/15 pb-6">
+      <div>
+        <span class="text-tealbrand font-extrabold uppercase tracking-widest text-xs">Lo que pasa de verdad en Colombia</span>
+        <h2 class="font-display text-4xl sm:text-5xl uppercase tracking-wide mt-1">3 Cosas que pocos te cuentan</h2>
+      </div>
+      <p class="font-typewriter text-sm text-neutral-400 max-w-md">
+        Toca cada tarjeta para voltearla y ver qué dice exactamente la norma colombiana.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Tarjeta 1 -->
+      <div class="perspective h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner relative w-full h-full">
+          <div class="flip-front absolute inset-0 bg-neutral-900 border-2 border-neutral-800 hover:border-tealbrand transition-colors p-6 flex flex-col justify-between rounded-sm">
+            <div>
+              <span class="inline-block bg-tealbrand/20 text-tealbrand text-xs font-extrabold uppercase px-2.5 py-1 mb-4">Bares y Discotecas</span>
+              <h3 class="font-display text-2xl sm:text-3xl uppercase tracking-wide text-white leading-snug">
+                “Si el menor entra pero no toma trago, no pasa nada”
+              </h3>
+            </div>
+            <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-tealbrand pt-4 border-t border-white/10">
+              <span>Ver dato legal</span>
+              <span>↻ Voltear</span>
+            </div>
+          </div>
+
+          <div class="flip-back absolute inset-0 bg-paper text-ink p-6 flex flex-col justify-between rounded-sm border-t-8 border-tealbrand">
+            <div>
+              <span class="inline-block bg-ink text-white text-[11px] font-extrabold uppercase px-2 py-0.5 mb-3">Ley 1801 de 2016 • Art. 38</span>
+              <p class="font-sans text-sm leading-relaxed font-semibold">
+                El solo <strong>ingreso o permanencia</strong> de menores de 18 años en bares, discotecas o sitios donde se venda alcohol para consumo está prohibido, así tomen solo agua o gaseosa.
+              </p>
+              <p class="font-typewriter text-xs text-neutral-700 mt-3">
+                Consecuencia: Sellamiento temporal inmediato del local y multa Tipo 4 al establecimiento.
+              </p>
+            </div>
+            <span class="text-xs font-extrabold uppercase text-tealbrand">↻ Volver</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="perspective h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner relative w-full h-full">
+          <div class="flip-front absolute inset-0 bg-neutral-900 border-2 border-neutral-800 hover:border-tealbrand transition-colors p-6 flex flex-col justify-between rounded-sm">
+            <div>
+              <span class="inline-block bg-tealbrand/20 text-tealbrand text-xs font-extrabold uppercase px-2.5 py-1 mb-4">Moteles y Residencias</span>
+              <h3 class="font-display text-2xl sm:text-3xl uppercase tracking-wide text-white leading-snug">
+                “Si los dos quieren entrar, el motel los puede dejar pasar”
+              </h3>
+            </div>
+            <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-tealbrand pt-4 border-t border-white/10">
+              <span>Ver dato legal</span>
+              <span>↻ Voltear</span>
+            </div>
+          </div>
+
+          <div class="flip-back absolute inset-0 bg-paperblue text-ink p-6 flex flex-col justify-between rounded-sm border-t-8 border-ink">
+            <div>
+              <span class="inline-block bg-tealbrand text-white text-[11px] font-extrabold uppercase px-2 py-0.5 mb-3">Ley 1098 de 2006 & C. Penal Art. 219A</span>
+              <p class="font-sans text-sm leading-relaxed font-semibold">
+                Cero excusas: ningún motel, residencia u hostal puede admitir menores de 18 años. Si un adulto ingresa con un menor, se activa alerta penal y de protección de derechos.
+              </p>
+              <p class="font-typewriter text-xs text-neutral-800 mt-3">
+                La administración está obligada por ley a pedir cédula física o digital y negar el acceso.
+              </p>
+            </div>
+            <span class="text-xs font-extrabold uppercase text-ink">↻ Volver</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="perspective h-80 cursor-pointer" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner relative w-full h-full">
+          <div class="flip-front absolute inset-0 bg-neutral-900 border-2 border-neutral-800 hover:border-tealbrand transition-colors p-6 flex flex-col justify-between rounded-sm">
+            <div>
+              <span class="inline-block bg-tealbrand/20 text-tealbrand text-xs font-extrabold uppercase px-2.5 py-1 mb-4">Cédula Prestada</span>
+              <h3 class="font-display text-2xl sm:text-3xl uppercase tracking-wide text-white leading-snug">
+                “Le presto mi cédula en la fila mientras entra y ya”
+              </h3>
+            </div>
+            <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-tealbrand pt-4 border-t border-white/10">
+              <span>Ver dato legal</span>
+              <span>↻ Voltear</span>
+            </div>
+          </div>
+
+          <div class="flip-back absolute inset-0 bg-paper text-ink p-6 flex flex-col justify-between rounded-sm border-t-8 border-tealbrand">
+            <div>
+              <span class="inline-block bg-ink text-white text-[11px] font-extrabold uppercase px-2 py-0.5 mb-3">Código Penal • Art. 296</span>
+              <p class="font-sans text-sm leading-relaxed font-semibold">
+                Suplantar identidad usando la cédula de otro constituye delito de <strong>falsedad personal</strong>. Además, si pasa algo grave dentro del lugar, el titular del documento responde primero.
+              </p>
+              <p class="font-typewriter text-xs text-neutral-700 mt-3">
+                Cuidar a un amigo menor no es meterlo escondido: es evitar que quede expuesto.
+              </p>
+            </div>
+            <span class="text-xs font-extrabold uppercase text-tealbrand">↻ Volver</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: SIMULADOR INTERACTIVO -->
+  <section id="simulador" class="py-16 md:py-20 bg-neutral-950 border-y border-white/10 px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-tealbrand font-extrabold uppercase tracking-widest text-xs">Casos reales cerca del parche universitario</span>
+        <h2 class="font-display text-4xl sm:text-5xl uppercase tracking-wide mt-1">¿Qué harías tú?</h2>
+        <p class="text-neutral-400 text-sm sm:text-base mt-2">
+          3 situaciones rápidas para saber cómo reaccionar sin improvisar.
+        </p>
+      </div>
+
+      <div class="bg-neutral-900 border border-white/15 rounded-sm p-6 sm:p-8 shadow-2xl">
+        <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-neutral-400 mb-6 pb-4 border-b border-white/10">
+          <span id="quiz-progress">Situación 1 de 3</span>
+          <span id="quiz-score" class="text-tealbrand">Aciertos: 0</span>
+        </div>
+
+        <div id="quiz-content">
+          <div class="inline-block bg-tealbrand/20 text-tealbrand text-xs font-bold px-2.5 py-1 rounded-sm mb-3" id="quiz-location">
+            📍 Viernes por la noche • Zona Calle 63 / Chapinero
+          </div>
+          <h3 id="quiz-question" class="text-xl sm:text-2xl font-bold text-white leading-snug mb-6">
+            Salen de clase en Los Libertadores y van a celebrar. Un compañero del semestre tiene 17 años y te pide que le prestes tu cédula para pasar el filtro de un bar. ¿Qué haces?
+          </h3>
+
+          <div id="quiz-options" class="space-y-3"></div>
+
+          <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-sm border-l-4 font-typewriter text-sm leading-relaxed"></div>
+
+          <div class="mt-6 flex justify-end">
+            <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden bg-tealbrand hover:bg-tealdark text-white font-extrabold uppercase tracking-wider text-xs px-6 py-3 rounded-sm transition-colors">
+              Siguiente situación →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: QUÉ HACER ANTES DE LLAMAR -->
+  <section id="antes-de-llamar" class="py-16 md:py-20 px-4 max-w-6xl mx-auto">
+    <div class="mb-10">
+      <span class="text-tealbrand font-extrabold uppercase tracking-widest text-xs">Actúa con cabeza fría</span>
+      <h2 class="font-display text-4xl sm:text-5xl uppercase tracking-wide mt-1">¿Qué hacer ANTES de llamar?</h2>
+      <p class="text-neutral-400 text-sm sm:text-base mt-2 max-w-2xl">
+        Si ves a un menor de edad entrando a un bar o motel, sigue estos 4 pasos rápidos para que tu reporte sea efectivo y no te metas en líos innecesarios:
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="bg-neutral-900 border border-white/10 p-6 rounded-sm relative">
+        <span class="font-display text-5xl text-tealbrand/30 block mb-2">01</span>
+        <h3 class="font-bold text-lg text-white mb-2">No armes pelea en la puerta</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">
+          No discutas con el personal de seguridad ni grabes de frente llamando la atención. Aléjate unos metros a un punto tranquilo donde puedas hablar claro.
+        </p>
+      </div>
+
+      <div class="bg-neutral-900 border border-white/10 p-6 rounded-sm relative">
+        <span class="font-display text-5xl text-tealbrand/30 block mb-2">02</span>
+        <h3 class="font-bold text-lg text-white mb-2">Anota la dirección exacta</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">
+          Mira la placa de la esquina (calle y carrera), el nombre del establecimiento y un punto de referencia visible. Sin ubicación exacta la patrulla no llega rápido.
+        </p>
+      </div>
+
+      <div class="bg-neutral-900 border border-white/10 p-6 rounded-sm relative">
+        <span class="font-display text-5xl text-tealbrand/30 block mb-2">03</span>
+        <h3 class="font-bold text-lg text-white mb-2">Si es de tu parche, acompáñalo afuera</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">
+          Si el menor es amigo tuyo, no lo dejes botado en la calle de noche. Quédate con él en un lugar iluminado y contáctate con un familiar de confianza para que vuelva a casa.
+        </p>
+      </div>
+
+      <div class="bg-neutral-900 border border-white/10 p-6 rounded-sm relative">
+        <span class="font-display text-5xl text-tealbrand/30 block mb-2">04</span>
+        <h3 class="font-bold text-lg text-white mb-2">Elige la línea correcta</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">
+          No todas las líneas sirven para lo mismo. Usa el filtro de abajo según si el hecho está pasando ya mismo o si necesitas reportarlo de forma anónima.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: LÍNEAS ESPECÍFICAS SEGÚN CADA CASO -->
+  <section id="lineas" class="py-16 md:py-20 bg-paper text-ink px-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="inline-block bg-ink text-tealbrand font-extrabold uppercase tracking-widest text-xs px-3 py-1 mb-2">
+          Directorio verificado • Colombia
+        </span>
+        <h2 class="font-display text-4xl sm:text-5xl uppercase tracking-wide text-ink">
+          ¿A qué línea llamar según el caso?
+        </h2>
+        <p class="text-neutral-700 text-sm sm:text-base mt-2 max-w-2xl mx-auto">
+          Selecciona lo que está pasando para ver el número exacto, cuándo aplica y qué decir apenas contesten:
+        </p>
+      </div>
+
+      <!-- Filtros por situación -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8" id="case-buttons">
+        <button onclick="selectCase('urgencia')" id="btn-urgencia" class="case-btn active text-left p-4 rounded-sm border-2 border-ink bg-ink text-white transition-all">
+          <span class="block text-[11px] font-extrabold uppercase tracking-wider text-tealbrand">Caso 1 • En vivo</span>
+          <span class="font-bold text-sm mt-1 block">Acaban de entrar a un bar o motel</span>
+        </button>
+
+        <button onclick="selectCase('proteccion')" id="btn-proteccion" class="case-btn text-left p-4 rounded-sm border-2 border-neutral-300 bg-white text-ink hover:border-ink transition-all">
+          <span class="block text-[11px] font-extrabold uppercase tracking-wider text-tealbrand">Caso 2 • Reporte anónimo</span>
+          <span class="font-bold text-sm mt-1 block">Sabes de un sitio que siempre deja entrar menores</span>
+        </button>
+
+        <button onclick="selectCase('delito')" id="btn-delito" class="case-btn text-left p-4 rounded-sm border-2 border-neutral-300 bg-white text-ink hover:border-ink transition-all">
+          <span class="block text-[11px] font-extrabold uppercase tracking-wider text-tealbrand">Caso 3 • Abuso o explotación</span>
+          <span class="font-bold text-sm mt-1 block">Un adulto llevó a un menor a un motel</span>
+        </button>
+
+        <button onclick="selectCase('crisis')" id="btn-crisis" class="case-btn text-left p-4 rounded-sm border-2 border-neutral-300 bg-white text-ink hover:border-ink transition-all">
+          <span class="block text-[11px] font-extrabold uppercase tracking-wider text-tealbrand">Caso 4 • Escucha y apoyo</span>
+          <span class="font-bold text-sm mt-1 block">Tu amigo menor está mal o en crisis por consumo</span>
+        </button>
+      </div>
+
+      <!-- Tarjeta dinámica de resultado -->
+      <div id="case-detail" class="bg-white border-2 border-ink p-6 sm:p-8 rounded-sm shadow-xl">
+        <!-- Se llena vía JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-ink border-t border-white/15 py-10 px-4 text-neutral-400">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="bg-white px-3 py-1.5 rounded-sm">
+          <img src="logo-punto-ciego.png" alt="Logo Punto Ciego" class="h-10 w-auto object-contain" />
+        </div>
+        <div>
+          <p class="text-white font-bold text-sm">Campaña PUNTO CIEGO</p>
+          <p class="text-xs text-neutral-400">Fundación Universitaria Los Libertadores • Informarse también es ayudar</p>
+        </div>
+      </div>
+
+      <p class="text-xs text-center sm:text-right max-w-sm">
+        Información basada en la Ley 1801 de 2016 (Código Nacional de Seguridad y Convivencia) y la Ley 1098 de 2006 (Código de Infancia y Adolescencia).
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // --- SIMULADOR INTERACTIVO ---
+    const quizData = [
+      {
+        location: "📍 Viernes por la noche • Zona Calle 63 / Chapinero",
+        question: "Salen de clase en Los Libertadores y van a celebrar. Un compañero del semestre tiene 17 años y te pide que le prestes tu cédula para pasar el filtro de un bar. ¿Qué haces?",
+        options: [
+          {
+            text: "Se la presto un segundo mientras entra y luego me la devuelve adentro.",
+            correct: false,
+            feedback: "Mal movimiento: prestar la cédula es falsedad personal (Art. 296 del Código Penal) y si pasa cualquier incidente dentro del bar, el que figura registrado eres tú."
+          },
+          {
+            text: "Le digo que no, cambiamos de plan (ir a comer, bolos o casa de alguien) y evitamos problemas.",
+            correct: true,
+            feedback: "¡Esa es! Cuidar al parche es cambiar de plan para que nadie quede por fuera ni se meta en líos legales."
+          },
+          {
+            text: "Le digo que entre solo por otro lado y nos vemos en la barra.",
+            correct: false,
+            feedback: "Si llega un operativo de Policía de Infancia, sellan el lugar y a tu amigo lo trasladan a protección mientras ubican a sus papás."
+          }
+        ]
+      },
+      {
+        location: "📍 Sábado en la tarde • Sector Avenida Caracas",
+        question: "Vas caminando y ves que un hombre mayor de edad entra con una niña con uniforme de colegio a una residencia/motel. ¿Cuál es la reacción más inteligente?",
+        options: [
+          {
+            text: "Anotar la dirección exacta del lugar, alejarme unos metros y marcar al 123 pidiendo Policía de Infancia y Adolescencia.",
+            correct: true,
+            feedback: "¡Exacto! No te expones confrontando a nadie y activas de inmediato a la Policía de Infancia para que intervenga en el sitio."
+          },
+          {
+            text: "Seguir derecho porque seguramente es un familiar y no me incumbe.",
+            correct: false,
+            feedback: "Ningún motel o residencia puede recibir menores de edad bajo ninguna excusa (Ley 1098 de 2006). Ignorarlo deja al menor en un Punto Ciego."
+          },
+          {
+            text: "Entrar a reclamarle al recepcionista y grabarlo con el celular.",
+            correct: false,
+            feedback: "Confrontar directamente puede escalar la situación y alertar al adulto para que escape antes de que llegue la autoridad. Mejor reporta con dirección exacta al 123."
+          }
+        ]
+      },
+      {
+        location: "📍 Jueves universitario • Cerca al campus",
+        question: "Sabes que un bar clandestino cerca de la zona siempre deja entrar menores de colegio sin pedir documento. No está pasando una emergencia ahora mismo, pero quieres reportarlo. ¿Qué línea usas?",
+        options: [
+          {
+            text: "Línea 141 del ICBF (gratuita y confidencial) para reportar el establecimiento.",
+            correct: true,
+            feedback: "¡Correcto! La Línea 141 del ICBF recibe reportes preventivos y anónimos para activar visitas de verificación y protección de menores."
+          },
+          {
+            text: "Llamar a emergencias médicas diciendo que hay un herido.",
+            correct: false,
+            feedback: "Nunca des información falsa: desvías ambulancias que alguien más necesita y pierdes credibilidad en el reporte."
+          },
+          {
+            text: "Publicarlo en redes esperando que alguien haga algo algún día.",
+            correct: false,
+            feedback: "Un post en redes no activa inspección oficial; un reporte en la Línea 141 sí deja radicado formal."
+          }
+        ]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = false;
+
+    function renderQuestion() {
+      answered = false;
+      const q = quizData[currentQuestion];
+      document.getElementById('quiz-progress').textContent = `Situación ${currentQuestion + 1} de ${quizData.length}`;
+      document.getElementById('quiz-score').textContent = `Aciertos: ${score}`;
+      document.getElementById('quiz-location').textContent = q.location;
+      document.getElementById('quiz-question').textContent = q.question;
+
+      const optionsDiv = document.getElementById('quiz-options');
+      optionsDiv.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-sm border border-white/15 bg-black/50 hover:border-tealbrand text-neutral-200 text-sm sm:text-base transition-all flex items-start gap-3";
+        btn.innerHTML = `<span class="font-display text-tealbrand text-lg leading-none mt-0.5">${String.fromCharCode(65 + idx)}.</span><span>${opt.text}</span>`;
+        btn.onclick = () => selectOption(idx, btn);
+        optionsDiv.appendChild(btn);
+      });
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.classList.add('hidden');
+      document.getElementById('quiz-next-btn').classList.add('hidden');
+    }
+
+    function selectOption(idx, clickedBtn) {
+      if (answered) return;
+      answered = true;
+
+      const q = quizData[currentQuestion];
+      const selected = q.options[idx];
+      const allBtns = document.getElementById('quiz-options').children;
+
+      for (let i = 0; i < allBtns.length; i++) {
+        allBtns[i].disabled = true;
+        if (q.options[i].correct) {
+          allBtns[i].classList.remove('border-white/15', 'bg-black/50');
+          allBtns[i].classList.add('border-tealbrand', 'bg-tealbrand/20', 'text-white', 'font-semibold');
+        } else if (i === idx && !selected.correct) {
+          allBtns[i].classList.remove('border-white/15', 'bg-black/50');
+          allBtns[i].classList.add('border-red-500', 'bg-red-950/40', 'text-neutral-300');
+        }
+      }
+
+      if (selected.correct) {
+        score++;
+        document.getElementById('quiz-score').textContent = `Aciertos: ${score}`;
+      }
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.textContent = selected.feedback;
+      fb.classList.remove('hidden', 'border-tealbrand', 'bg-tealbrand/10', 'border-red-500', 'bg-red-950/30');
+      if (selected.correct) {
+        fb.classList.add('border-tealbrand', 'bg-tealbrand/10', 'text-tealbrand');
+      } else {
+        fb.classList.add('border-red-500', 'bg-red-950/30', 'text-red-300');
+      }
+
+      const nextBtn = document.getElementById('quiz-next-btn');
+      nextBtn.textContent = currentQuestion < quizData.length - 1 ? "Siguiente situación →" : "Ver resultado final →";
+      nextBtn.classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        renderQuestion();
+      } else {
+        const container = document.getElementById('quiz-content');
+        container.innerHTML = `
+          <div class="text-center py-6">
+            <span class="inline-block bg-tealbrand text-white text-xs font-extrabold uppercase px-3 py-1 mb-3">Completado</span>
+            <h3 class="font-display text-3xl sm:text-4xl uppercase text-white mb-2">Obtuviste ${score} de ${quizData.length} aciertos</h3>
+            <p class="font-typewriter text-neutral-300 text-sm max-w-lg mx-auto mb-6">
+              Tener claro cómo actuar evita que un amigo menor termine expuesto o que un establecimiento siga operando fuera de la ley.
+            </p>
+            <button onclick="restartQuiz()" class="bg-white text-ink hover:bg-tealbrand hover:text-white font-extrabold uppercase text-xs px-6 py-3 rounded-sm transition-colors">
+              Volver a intentar
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      const container = document.getElementById('quiz-content');
+      container.innerHTML = `
+        <div class="inline-block bg-tealbrand/20 text-tealbrand text-xs font-bold px-2.5 py-1 rounded-sm mb-3" id="quiz-location"></div>
+        <h3 id="quiz-question" class="text-xl sm:text-2xl font-bold text-white leading-snug mb-6"></h3>
+        <div id="quiz-options" class="space-y-3"></div>
+        <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-sm border-l-4 font-typewriter text-sm leading-relaxed"></div>
+        <div class="mt-6 flex justify-end">
+          <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden bg-tealbrand hover:bg-tealdark text-white font-extrabold uppercase tracking-wider text-xs px-6 py-3 rounded-sm transition-colors"></button>
+        </div>
+      `;
+      renderQuestion();
+    }
+
+    // --- SELECTOR DE LÍNEAS ESPECÍFICAS ---
+    const linesData = {
+      urgencia: {
+        badge: "Urgencia en curso • 24/7 Gratuita",
+        number: "123",
+        entity: "Línea Única de Emergencias — Policía de Infancia y Adolescencia",
+        when: "Úsala ÚNICAMENTE cuando el menor está dentro del bar, discoteca o motel en ese preciso momento y necesitas que una patrulla llegue al sitio.",
+        say: "“Hola, reporto el ingreso/permanencia de un menor de edad en [nombre del bar o motel], ubicado en [dirección exacta y barrio]. Solicito apoyo de Policía de Infancia y Adolescencia.”",
+        note: "Puedes pedir que tu reporte quede reservado."
+      },
+      proteccion: {
+        badge: "Protección y reporte preventivo • 24/7 Gratuita",
+        number: "141",
+        entity: "Línea Nacional de Protección — ICBF (Instituto Colombiano de Bienestar Familiar)",
+        when: "Úsala cuando sabes de un bar, chiquiteca o residencia que deja entrar menores habitualmente, o si conoces a un menor en situación de desprotección.",
+        say: "“Quiero hacer un reporte anónimo sobre un establecimiento en [dirección y localidad] donde permiten el ingreso de menores de edad y consumo de licor.”",
+        note: "Atiende desde cualquier celular sin necesidad de tener minutos."
+      },
+      delito: {
+        badge: "Denuncia penal • 24/7 Gratuita",
+        number: "122",
+        entity: "Fiscalía General de la Nación (Centro de Contacto)",
+        when: "Úsala cuando exista sospecha o evidencia de explotación sexual comercial (ESCNNA), inducción a la prostitución o abuso sexual de un menor en un motel o residencia.",
+        say: "“Necesito interponer una denuncia por posible delito sexual / explotación contra un menor de edad ocurrido en [lugar y dirección].”",
+        note: "También puedes acudir presencialmente a un CAIVAS o URI más cercana."
+      },
+      crisis: {
+        badge: "Escucha y orientación • 24/7 Gratuita",
+        number: "106",
+        entity: "Línea 106 “El poder de ser escuchado” (WhatsApp: 300 754 8933)",
+        when: "Úsala si un amigo menor de edad está pasando por una crisis emocional, ansiedad, problemas en casa o consumo problemático de alcohol/sustancias y necesita orientación profesional.",
+        say: "“Hola, tengo un conocido menor de edad que está pasando por una situación difícil con el consumo / crisis emocional y queremos saber cómo recibir orientación.”",
+        note: "Atendida por psicólogos; no es una línea policial sino de apoyo en salud."
+      }
+    };
+
+    function selectCase(key) {
+      document.querySelectorAll('.case-btn').forEach(btn => {
+        btn.classList.remove('border-ink', 'bg-ink', 'text-white');
+        btn.classList.add('border-neutral-300', 'bg-white', 'text-ink');
+      });
+
+      const activeBtn = document.getElementById(`btn-${key}`);
+      activeBtn.classList.remove('border-neutral-300', 'bg-white', 'text-ink');
+      activeBtn.classList.add('border-ink', 'bg-ink', 'text-white');
+
+      const item = linesData[key];
+      document.getElementById('case-detail').innerHTML = `
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-neutral-200">
+          <div>
+            <span class="inline-block bg-tealbrand/15 text-tealdark text-xs font-extrabold uppercase tracking-wider px-2.5 py-1 mb-2">${item.badge}</span>
+            <h3 class="font-bold text-xl sm:text-2xl text-ink">${item.entity}</h3>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <a href="tel:${item.number}" class="bg-tealbrand hover:bg-tealdark text-white font-display text-3xl sm:text-4xl tracking-wider px-6 py-3 rounded-sm shadow-md transition-colors">
+              📞 ${item.number}
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+          <div>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-tealdark mb-2">¿Cuándo marcar este número?</h4>
+            <p class="text-sm sm:text-base text-neutral-800 leading-relaxed">${item.when}</p>
+            <p class="text-xs text-neutral-500 mt-3 font-semibold">ℹ️ ${item.note}</p>
+          </div>
+
+          <div class="bg-paperblue p-4 rounded-sm border-l-4 border-tealbrand">
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-ink mb-2">Qué decir apenas contesten:</h4>
+            <p class="font-typewriter text-sm text-ink leading-relaxed">${item.say}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Inicializar
+    renderQuestion();
+    selectCase('urgencia');
+  </script>
+</body>
+</html>
